@@ -61,8 +61,5 @@ public class Step {
         Assertions.assertEquals(nameProd, product.get(lastProd).getName(), "Название товара не соответствует");
         Assertions.assertEquals(typeProd, product.get(lastProd).getType(), "Тип товара не соответствует");
         Assertions.assertEquals(isExotic, product.get(lastProd).isExotic(), "Признак 'Экзотик' не соответствует");
-
-
-        //Assertions.assertEquals("Апельсин", response.jsonPath().getList("name").get(0));
     }
 }
