@@ -1,4 +1,4 @@
-package org.ibs;
+package org.ibs.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;

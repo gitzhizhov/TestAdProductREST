@@ -1,9 +1,11 @@
 package org.ibs;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
+import org.ibs.pojo.ProductPojo;
+import org.ibs.spec.Specification;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,8 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.post;
-import static org.ibs.Specification.requestSpecification;
-import static org.ibs.Specification.responseSpecification;
 
 public class RestTest {
 
@@ -30,8 +30,8 @@ public class RestTest {
     @Test
     @DisplayName("Тестирование запроса Get c проверкой status code = 200")
     public void getRequestCheckStatusCode() {
-        given()
-                .spec(requestSpecification(homeUrl))
+        RestAssured.given()
+                .spec(Specification.requestSpecification(homeUrl))
                 .when()
                 .get(apiGet)
                 .then()
@@ -43,8 +43,8 @@ public class RestTest {
     @Test
     @DisplayName("Тестирование запроса Get с выводом списка товоров на консоль")
     void  getRequestPrintResult(){
-        String response = given()
-                .spec(requestSpecification(homeUrl))
+        String response = RestAssured.given()
+                .spec(Specification.requestSpecification(homeUrl))
                 .when()
                 .get(apiGet)
                 .getBody()
@@ -55,8 +55,8 @@ public class RestTest {
     @Test
     @DisplayName("Тестирование запроса Post с добавлением продукта")
     void postRequestAddProduct() throws JsonProcessingException {
-        given()
-                .spec(requestSpecification(homeUrl))
+        RestAssured.given()
+                .spec(Specification.requestSpecification(homeUrl))
                 .contentType(ContentType.JSON)
                 .body(productPojo.pojoToJsonString(productName,productType,productExotic))
                 .when()
@@ -71,8 +71,8 @@ public class RestTest {
     @Test
     @DisplayName("Тестирование запроса Post с добавлением продукта")
     void postRequestAddProductGetSessionID() throws JsonProcessingException {
-        Response response = given()
-                .spec(requestSpecification(homeUrl))
+        Response response = RestAssured.given()
+                .spec(Specification.requestSpecification(homeUrl))
                 .contentType(ContentType.JSON)
                 //.body("{\"name\":\"Манго\",\"type\":\"FRUIT\",\"exotic\":true}")
                 .body(productPojo)
@@ -83,8 +83,8 @@ public class RestTest {
 
         String sessionId = response.sessionId();
 
-        given()
-                .spec(requestSpecification(homeUrl))
+        RestAssured.given()
+                .spec(Specification.requestSpecification(homeUrl))
                 .sessionId(sessionId)
                 .when()
                 .get(apiGet)
